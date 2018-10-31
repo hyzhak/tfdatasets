@@ -1,6 +1,20 @@
 version: '2.3'
+
 services:
-  py:
-    build: .
+  devpi:
+    build:
+      context: .
+      dockerfile: Dockerfile-devpi
+    ports:
+      - "3141:3141"
     volumes:
       - .:/code
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile-tests
+    volumes:
+      - .:/code
+    depends_on:
+      - devpi
