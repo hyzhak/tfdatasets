@@ -12,7 +12,6 @@ setuptools.setup(
     author='Eugene Krevenets',
     author_email='ievgenii.krevenets@gmail.com',
     description='middleware in pipeline between dataset and tensorflow classifier',
-    scripts=['./main.py'],
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/hyzhak/tfdatasets',
