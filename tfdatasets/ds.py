@@ -15,7 +15,8 @@ def get_dataset(name, path=None, show_samples=False, logging_level='INFO'):
 
     # show samples
     if show_samples:
-        visualization.show_samples(ds_facade.train())
+        visualization.show_samples(ds_facade.train(
+            batch=None, shuffle=None, repeat=None)())
 
     # create tf records
     return ds_facade
@@ -25,11 +26,25 @@ class DatasetFacade:
     def __init__(self, ds_builder):
         self.ds_builder = ds_builder
 
-    def train(self):
-        return self.ds_builder.make_dataset('train')
+    def train(self, batch=16, shuffle=1000, repeat=True):
+        def train_input_fn():
+            ds = self.ds_builder.make_dataset('train')
+            if batch is not None:
+                ds = ds.batch(batch)
+            if repeat:
+                ds = ds.repeat()
+            if shuffle is not None:
+                ds = ds.shuffle(shuffle)
+            return ds
+        return train_input_fn
 
     def validation(self):
         return self.ds_builder.make_dataset('validation')
 
-    def validation(self):
-        return self.ds_builder.make_dataset('eval')
+    def validation(self, batch=16):
+        def train_input_fn():
+            ds = self.ds_builder.make_dataset('eval')
+            if batch is not None:
+                ds = ds.batch(batch)
+            return ds
+        return train_input_fn
