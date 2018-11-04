@@ -16,7 +16,7 @@ def get_dataset(name, path=None, show_samples=False, logging_level='INFO'):
     # show samples
     if show_samples:
         visualization.show_samples(ds_facade.train(
-            batch=None, shuffle=None, repeat=None)())
+            batch=16, shuffle=None, repeat=None)())
 
     # create tf records
     return ds_facade
@@ -25,6 +25,9 @@ def get_dataset(name, path=None, show_samples=False, logging_level='INFO'):
 class DatasetFacade:
     def __init__(self, ds_builder):
         self.ds_builder = ds_builder
+
+    def get_all_feature_columns(self):
+        return self.ds_builder.get_all_feature_columns()
 
     def train(self, batch=16, shuffle=1000, repeat=True):
         def train_input_fn():

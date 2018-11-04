@@ -1,10 +1,6 @@
 import os
 import tensorflow as tf
 
-HEIGHT = 32
-WIDTH = 32
-DEPTH = 3
-
 
 class TFDataSetBuilder:
     def __init__(self, data_dir, use_distortion=True):
@@ -12,21 +8,18 @@ class TFDataSetBuilder:
         self.use_distortion = use_distortion
 
     def get_all_feature_columns(self):
-        return [tf.feature_column.numeric_column('image', shape=[DEPTH, HEIGHT, WIDTH])]
+        my_feature_columns = []
+        for key in train_x.keys():
+            my_feature_columns.append(tf.feature_column.numeric_column(key=key))
+        return my_feature_columns
 
-    def make_dataset(self, subset):
-        file_names = self._get_filenames(subset)
-        dataset = tf.data.TFRecordDataset(file_names)
-        dataset = dataset.map(self._parser)
-        return dataset
-
-    def _get_filenames(self, subset):
+    def get_filenames(self, subset):
         if subset in ['train', 'validation', 'eval']:
             return [os.path.join(self.data_dir, subset + '.tfrecords')]
         else:
             raise ValueError('Invalid data subset "%s"' % subset)
 
-    def _parser(self, serialized_example):
+    def parser(self, serialized_example):
         """Parses a single tf.Example into image and label tensors."""
         # Dimensions of the images in the CIFAR-10 dataset.
         # See http://www.cs.toronto.edu/~kriz/cifar.html for a description of the
@@ -51,6 +44,12 @@ class TFDataSetBuilder:
         # image = self.preprocess(image)
 
         return {'image': image}, label
+
+    def make_dataset(self, subset):
+        file_names = self.get_filenames(subset)
+        dataset = tf.data.TFRecordDataset(file_names)
+        dataset = dataset.map(self.parser)
+        return dataset
 
 
 def make_dataset(dataset_path, subset):

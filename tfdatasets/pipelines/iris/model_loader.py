@@ -1,2 +1,6 @@
 def load(data_dir, logging_level='INFO'):
-    pass
+    # TODO: download
+
+    # TODO: split to train, test, validate (datasets)
+    # 100, 25, 25
+    return None
