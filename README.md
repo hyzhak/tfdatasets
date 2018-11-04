@@ -10,7 +10,7 @@ middleware in pipeline between dataset and tensorflow classifier
 import tensorflow as tf
 import tfdatasets
 
-ds = tfdatasets.get_dataset('cifar10', path = '/var/datasets')
+ds = tfdatasets.get_dataset('cifar10', path='/var/datasets')
 
 # create simple DNN classifier
 classifier = tf.estimator.DNNClassifier(
@@ -37,7 +37,7 @@ classifier.evaluate(input_fn=ds.test())
 import tensorflow as tf
 import tfdatasets
 
-ds = tfdatasets.get_dataset('iris', path = '/var/datasets')
+ds = tfdatasets.get_dataset('iris', path='/var/datasets')
 
 # TODO:
 # Feature columns describe how to use the input.

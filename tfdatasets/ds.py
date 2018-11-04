@@ -29,6 +29,10 @@ class DatasetFacade:
     def get_all_feature_columns(self):
         return self.ds_builder.get_all_feature_columns()
 
+    def num_of_classes(self):
+        # TODO:
+        return None
+
     def train(self, batch=16, shuffle=1000, repeat=True):
         def train_input_fn():
             ds = self.ds_builder.make_dataset('train')
