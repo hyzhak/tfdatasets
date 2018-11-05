@@ -51,7 +51,7 @@ class TFDataSetBuilder:
         # image = self.preprocess(image)
 
         return {'image': image}, label
-
-
-def make_dataset(dataset_path, subset):
-    return TFDataSetBuilder(dataset_path).make_dataset(subset)
+#
+#
+# def make_dataset(dataset_path, subset):
+#     return TFDataSetBuilder(dataset_path).make_dataset(subset)

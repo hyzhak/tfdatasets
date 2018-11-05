@@ -1,22 +1,19 @@
 import os
 from tfdatasets.visualization import visualization
-from tfdatasets.pipelines import get_loader_by_name, get_processor_by_name
+from tfdatasets.pipelines import get_profile
 
 
-def get_dataset(name, path=None, show_samples=False, logging_level='INFO'):
+def get_dataset(name, data_dir=None, show_samples=False, logging_level='INFO'):
     # load dataset
-    path = os.path.join(path, name + '-tf-data')
-    loader = get_loader_by_name(name)
-    loader.main(data_dir=path, logging_level=logging_level)
+    data_dir = os.path.join(data_dir, name + '-tf-data')
 
-    processor = get_processor_by_name(name)
-
-    ds_facade = DatasetFacade(processor.TFDataSetBuilder(path))
+    ds_profile = get_profile(name)
+    ds_profile.load_model(data_dir=data_dir, logging_level=logging_level)
+    ds_facade = DatasetFacade(ds_profile.TFDataSetBuilder(data_dir))
 
     # show samples
     if show_samples:
-        visualization.show_samples(ds_facade.train(
-            batch=16, shuffle=None, repeat=None)())
+        ds_facade.show_samples()
 
     # create tf records
     return ds_facade
@@ -33,6 +30,9 @@ class DatasetFacade:
         # TODO:
         return None
 
+    def show_samples(self):
+        visualization.show_samples(self.ds_builder.make_dataset('train'))
+
     def train(self, batch=16, shuffle=1000, repeat=True):
         def train_input_fn():
             ds = self.ds_builder.make_dataset('train')
@@ -43,15 +43,22 @@ class DatasetFacade:
             if shuffle is not None:
                 ds = ds.shuffle(shuffle)
             return ds
+
         return train_input_fn
 
-    def validation(self):
-        return self.ds_builder.make_dataset('validation')
+    def validation(self, batch=None):
+        def validation_input_fn():
+            ds = self.ds_builder.make_dataset('validation')
+            if batch is not None:
+                ds = ds.batch(batch)
+            return ds
+        return validation_input_fn
 
-    def validation(self, batch=16):
-        def train_input_fn():
+    def eval(self, batch=16):
+        def eval_input_fn():
             ds = self.ds_builder.make_dataset('eval')
             if batch is not None:
                 ds = ds.batch(batch)
             return ds
-        return train_input_fn
+
+        return eval_input_fn

@@ -2,15 +2,8 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 
-def make_iterator(ds, batch_size=32, shuffle_size=1000):
-    ds = ds.batch(batch_size)
-    ds = ds.repeat()
-    ds = ds.shuffle(shuffle_size)
-    return ds.make_one_shot_iterator()
-
-
 def show_samples(ds):
-    iterator = make_iterator(ds)
+    iterator = ds.batch(32).make_one_shot_iterator()
     with tf.Session() as sess:
         next_element = iterator.get_next()
         sess.run(tf.global_variables_initializer())
