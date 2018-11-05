@@ -1,4 +1,4 @@
-def load(data_dir, logging_level='INFO'):
+def load_model(data_dir, logging_level='INFO'):
     # TODO: download
 
     # TODO: split to train, test, validate (datasets)

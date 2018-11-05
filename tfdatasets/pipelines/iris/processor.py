@@ -8,10 +8,14 @@ class TFDataSetBuilder:
         self.use_distortion = use_distortion
 
     def get_all_feature_columns(self):
-        my_feature_columns = []
-        for key in train_x.keys():
-            my_feature_columns.append(tf.feature_column.numeric_column(key=key))
-        return my_feature_columns
+        # get single sample from data set
+        # and extract its fields
+        one_sample_graph = self.make_dataset('train').batch(1).make_one_shot_iterator().get_next()
+        with tf.Session() as sess:
+            one_sample = sess.run(one_sample_graph)
+            keys = one_sample.keys()
+
+        return [tf.feature_column.numeric_column(key) for key in keys]
 
     def get_filenames(self, subset):
         if subset in ['train', 'validation', 'eval']:
@@ -50,7 +54,3 @@ class TFDataSetBuilder:
         dataset = tf.data.TFRecordDataset(file_names)
         dataset = dataset.map(self.parser)
         return dataset
-
-
-def make_dataset(dataset_path, subset):
-    return TFDataSetBuilder(dataset_path).make_dataset(subset)
