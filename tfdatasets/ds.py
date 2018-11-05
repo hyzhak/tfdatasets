@@ -9,7 +9,7 @@ def get_dataset(name, data_dir=None, show_samples=False, logging_level='INFO'):
 
     ds_profile = get_profile(name)
     ds_profile.load_model(data_dir=data_dir, logging_level=logging_level)
-    ds_facade = DatasetFacade(ds_profile.TFDataSetBuilder(data_dir))
+    ds_facade = DatasetFacade(ds_profile, ds_profile.TFDataSetBuilder(data_dir))
 
     # show samples
     if show_samples:
@@ -20,15 +20,15 @@ def get_dataset(name, data_dir=None, show_samples=False, logging_level='INFO'):
 
 
 class DatasetFacade:
-    def __init__(self, ds_builder):
+    def __init__(self, ds_profile, ds_builder):
+        self.ds_profile = ds_profile
         self.ds_builder = ds_builder
 
     def get_all_feature_columns(self):
         return self.ds_builder.get_all_feature_columns()
 
     def num_of_classes(self):
-        # TODO:
-        return None
+        self.ds_profile.num_of_classes
 
     def show_samples(self):
         visualization.show_samples(self.ds_builder.make_dataset('train'))
