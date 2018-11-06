@@ -1,6 +1,3 @@
-from tfdatasets.pipelines.cifar10 import model_loader as cifar10_loader, \
-    processor as cifar10_processor
-
 from tfdatasets.pipelines import cifar10, iris
 
 profiles = {

@@ -1,4 +1,4 @@
-from tfdatasets.pipelines.cifar10.model_loader import main as load_model
+from tfdatasets.pipelines.cifar10.model_loader import load_model
 from tfdatasets.pipelines.cifar10.processor import TFDataSetBuilder
 
 num_of_classes = 10

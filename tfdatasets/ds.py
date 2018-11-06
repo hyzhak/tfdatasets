@@ -28,7 +28,7 @@ class DatasetFacade:
         return self.ds_builder.get_all_feature_columns()
 
     def num_of_classes(self):
-        self.ds_profile.num_of_classes
+        return self.ds_profile.num_of_classes
 
     def show_samples(self):
         visualization.show_samples(self.ds_builder.make_dataset('train'))
