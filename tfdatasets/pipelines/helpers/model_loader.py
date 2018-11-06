@@ -30,11 +30,12 @@ class ModelLoader:
                              download_url=self.dataset_download_url,
                              filename=self.dataset_filename)
 
-        file_names = self.get_file_names()
-        input_dir = os.path.join(self.data_dir)  # , self.dataset_local_folder)
+        self.convert_to_tfrecords()
 
+    def convert_to_tfrecords(self):
+        file_names = self.get_file_names()
         for mode, files in file_names.items():
-            input_files = [os.path.join(input_dir, *f) for f in files]
+            input_files = [os.path.join(self.data_dir, *f) for f in files]
             output_file = os.path.join(self.data_dir, mode + '.tfrecords')
             try:
                 os.remove(output_file)

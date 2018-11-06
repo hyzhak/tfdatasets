@@ -1,4 +1,7 @@
 matplotlib
+numpy
+pandas
 pytest
+sklearn
 tenacity
 tensorflow==1.11.0
