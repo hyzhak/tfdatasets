@@ -23,6 +23,9 @@ class ModelLoader:
     def get_file_names(self):
         raise NotImplemented()
 
+    def process_input_file(self):
+        raise NotImplemented()
+
     def load(self):
         logger.info(f'Download from {self.dataset_download_url} and extract to {self.data_dir}.')
 
@@ -54,7 +57,10 @@ class ModelLoader:
             for input_file in input_files:
                 self.process_input_file(record_writer, input_file)
 
-    def _int64_feature(self, value):
+    def build_float_feature(self, value):
+        return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))
+
+    def build_int64_feature(self, value):
         return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
     def _bytes_feature(self, value):
