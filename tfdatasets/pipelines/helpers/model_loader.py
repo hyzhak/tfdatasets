@@ -63,7 +63,7 @@ class ModelLoader:
     def build_int64_feature(self, value):
         return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
-    def _bytes_feature(self, value):
+    def build_bytes_feature(self, value):
         return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
     def _read_pickle_from_file(self, filename):

@@ -61,8 +61,8 @@ class CIFAR10ModelLoader(model_loader.ModelLoader):
         for i in range(num_entries_in_batch):
             example = tf.train.Example(features=tf.train.Features(
                 feature={
-                    'image': self._bytes_feature(data[i].tobytes()),
-                    'label': self._int64_feature(labels[i])
+                    'image': self.build_bytes_feature(data[i].tobytes()),
+                    'label': self.build_int64_feature(labels[i])
                 }))
             record_writer.write(example.SerializeToString())
 

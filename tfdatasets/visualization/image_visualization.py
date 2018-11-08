@@ -21,3 +21,4 @@ def show_samples(ds):
             # for some reasons matplotlib convert color data is inverted
             plt.imshow(image / 256., interpolation='nearest')
         plt.show()
+    return plt

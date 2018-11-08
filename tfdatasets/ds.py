@@ -1,5 +1,4 @@
 import os
-from tfdatasets.visualization import visualization
 from tfdatasets.pipelines import get_profile
 
 
@@ -30,8 +29,8 @@ class DatasetFacade:
     def num_of_classes(self):
         return self.ds_profile.num_of_classes
 
-    def show_samples(self):
-        visualization.show_samples(self.ds_builder.make_dataset('train'))
+    def show_samples(self, subset='train'):
+        self.ds_profile.show_samples(self.ds_builder.make_dataset(subset))
 
     def train(self, batch=16, shuffle=1000, repeat=True):
         def train_input_fn():
@@ -52,6 +51,7 @@ class DatasetFacade:
             if batch is not None:
                 ds = ds.batch(batch)
             return ds
+
         return validation_input_fn
 
     def eval(self, batch=16):
