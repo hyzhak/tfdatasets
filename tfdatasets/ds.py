@@ -29,8 +29,9 @@ class DatasetFacade:
     def num_of_classes(self):
         return self.ds_profile.num_of_classes
 
-    def show_samples(self, subset='train'):
-        return self.ds_profile.show_samples(self.ds_builder.make_dataset(subset))
+    def show_samples(self, subset='train', limit=32):
+        return self.ds_profile.show_samples(self.ds_builder.make_dataset(subset),
+                                            limit)
 
     def train(self, batch=16, shuffle=1000, repeat=True):
         def train_input_fn():
