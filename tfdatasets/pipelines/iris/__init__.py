@@ -6,7 +6,7 @@ num_of_classes = 3
 
 
 def show_samples(ds):
-    table_visualization.show_samples(ds)
+    return table_visualization.show_samples(ds)
 
 
 __all__ = [

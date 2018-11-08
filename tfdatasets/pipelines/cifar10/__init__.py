@@ -6,7 +6,7 @@ num_of_classes = 10
 
 
 def show_samples(ds):
-    image_visualization.show_samples(ds)
+    return image_visualization.show_samples(ds)
 
 
 __all__ = [
