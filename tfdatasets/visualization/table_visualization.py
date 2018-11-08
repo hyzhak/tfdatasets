@@ -11,12 +11,12 @@ def show_samples(ds, limit=32):
     :return:
     """
     batch_iterator = ds.batch(limit).make_one_shot_iterator()
+
     with tf.Session() as sess:
         batch = batch_iterator.get_next()
-        examples = sess.run(batch)
-        examples = {
-            **examples[0],
-            'label': examples[1],
-        }
+        features_and_labels = sess.run(batch)
 
-    return pd.DataFrame.from_dict(examples)
+    return pd.DataFrame.from_dict({
+        **features_and_labels[0],
+        'label': features_and_labels[1],
+    })
