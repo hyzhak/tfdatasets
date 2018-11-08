@@ -46,7 +46,7 @@ class DatasetFacade:
 
         return train_input_fn
 
-    def validation(self, batch=None):
+    def validation(self, batch=16):
         def validation_input_fn():
             ds = self.ds_builder.make_dataset('validation')
             if batch is not None:
